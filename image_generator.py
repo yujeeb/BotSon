@@ -2,7 +2,7 @@ import replicate
 import requests
 
 
-class ImageGen():
+class ImageGenerator():
     def __init__(self):
         self.waiting_for_img_prompt = False
 

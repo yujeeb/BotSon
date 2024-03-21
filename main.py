@@ -1,7 +1,7 @@
 from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from image_generator import ImageGen
+from image_generator import ImageGenerator
 from gemini_chat import GeminiChat
 from constants import BOT_TOKEN, BOT_USERNAME
 
@@ -42,7 +42,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # This text will be treated as image prompt
         image_prompt = update.message.text
         # Generate the image based on the prompt
-        img_gen = ImageGen()
+        img_gen = ImageGenerator()
         await update.message.reply_text("Please wait while your image is being generated...")
         img_gen.generate_image(image_prompt)
         # Reset the waiting_for_img_prompt flag
@@ -70,7 +70,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(response)
 
 
-async def gen_img(update: Update, context):
+async def generate_response_image(update: Update, context):
     await update.message.reply_text("Enter your image prompt")
 
     # Set the waiting_for_img_prompt flag to True
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     # Commands
     app.add_handler(CommandHandler('start', start_command))
     app.add_handler(CommandHandler('help', help_command))
-    app.add_handler(CommandHandler('generate_image', gen_img))
+    app.add_handler(CommandHandler('generate_image', generate_response_image))
 
     # Messages
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
