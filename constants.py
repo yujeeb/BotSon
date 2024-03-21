@@ -1,0 +1,3 @@
+BOT_TOKEN = ""
+BOT_USERNAME = ""
+GEMINI_API_KEY = ""
