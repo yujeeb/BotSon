@@ -2,7 +2,7 @@ from typing import Final
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from image_generator import ImageGenerator
-from gemini_chat import GeminiChat
+from mistral_chat import MistralChat
 from constants import BOT_TOKEN, BOT_USERNAME
 
 
@@ -27,7 +27,7 @@ async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def handle_response(username, chat_name, message_type, text: str) -> str:
     processed: str = text.lower()
 
-    return gc.message(username, chat_name, message_type, processed)
+    return mc.message(username, chat_name, message_type, processed)
 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -50,7 +50,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open('image.png', 'rb'))
         return
     
-    chat_name = update.message.chat.id
+    chat_id = update.message.chat.id
+    chat_name = str(chat_id).replace("-", "_")
 
     if message_type == 'private':
         chat_name = username
@@ -85,7 +86,7 @@ if __name__ == '__main__':
     print('Starting bot...')
     app = Application.builder().token(TOKEN).build()
 
-    gc = GeminiChat()
+    mc = MistralChat()
 
     # Commands
     app.add_handler(CommandHandler('start', start_command))

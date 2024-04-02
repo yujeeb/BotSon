@@ -3,26 +3,21 @@ import requests
 
 
 class ImageGenerator():
-    def __init__(self):
-        self.waiting_for_img_prompt = False
-
-
     def generate_image(self, image_prompt):
+        print("inside gen_img")
         output = replicate.run(
-        "lucataco/sdxl-lightning-4step:727e49a643e999d602a896c774a0658ffefea21465756a6ce24b7ea4165eba6a",
-        input={
-            "seed": 2992471961,
-            "width": 1024,
-            "height": 1024,
-            "prompt": image_prompt,
-            "scheduler": "K_EULER",
-            "num_outputs": 1,
-            "guidance_scale": 0,
-            "negative_prompt": "worst quality, low quality",
-            "num_inference_steps": 4
+            "bytedance/sdxl-lightning-4step:727e49a643e999d602a896c774a0658ffefea21465756a6ce24b7ea4165eba6a",
+            input={
+                "width": 1024,
+                "height": 1024,
+                "prompt": image_prompt,
+                "scheduler": "K_EULER",
+                "num_outputs": 1,
+                "guidance_scale": 0,
+                "negative_prompt": "worst quality, low quality",
+                "num_inference_steps": 4
             }
         )
-
         print("Output:")
         print(output)
 
